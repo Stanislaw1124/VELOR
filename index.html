@@ -48,6 +48,13 @@ section{padding:44px 0}
 .cols{display:grid;gap:22px;margin-top:22px}
 .cols>div{border-top:1px solid var(--line);padding-top:14px}
 .cols p{color:var(--mut);font-size:14px;margin-top:6px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.sh>a{font-size:13px;font-weight:500;white-space:nowrap}
+.tile svg{width:100%;height:84px;margin-bottom:12px}
+.dark{display:grid;gap:20px;align-items:center}
+.dark .ph{background:transparent;aspect-ratio:16/10;max-width:320px;justify-self:end;width:100%}
+.dark .ph.no{background:rgba(255,255,255,.08)}
+.crumb a:hover{text-decoration:underline}
 .boxes>a{background:#ecece9;border-radius:14px;padding:22px;display:block}
 details{border-bottom:1px solid var(--line);padding:18px 0}
 summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between}
@@ -109,6 +116,7 @@ nav.open{display:flex}
 .pg{grid-template-columns:1fr 1fr}
 .sb{display:none}
 .boxes{grid-template-columns:repeat(3,1fr)}
+.dark{grid-template-columns:1fr 320px}
 }
 @media(min-width:1000px){.cw{grid-template-columns:1fr 340px}}
 @media(min-width:1100px){
@@ -161,20 +169,22 @@ function header(){
 const card=p=>`<a class="card" href="#/p/${p.id}">${img(p.id)}<small>${p.cat}</small><h3>${p.name}</h3><small>${p.sub}${p.stock?'':' · нет в наличии'}</small><b>${fmt(p.price)}</b></a>`;
 function home(){
  const pop=['iphone-16-pro','macbook-air-13','ipad-air-11','airpods-pro-2'].map(byId);
- const tiles=[['iPhone','Смартфоны'],['Mac','Компьютеры'],['iPad','Планшеты'],['Watch','Часы и здоровье']];
+ const F='fill="#2a2d33" stroke="#c9ced6" stroke-width="4"';
+ const tiles=[['iPhone','Смартфоны',`<rect x="46" y="4" width="28" height="76" rx="7" ${F}/>`],['Mac','Компьютеры',`<rect x="26" y="10" width="68" height="46" rx="4" ${F}/><rect x="14" y="60" width="92" height="5" rx="2.5" fill="#c9ced6"/>`],['iPad','Планшеты',`<rect x="38" y="4" width="44" height="76" rx="7" ${F}/>`],['Watch','Часы и здоровье',`<rect x="48" y="2" width="24" height="16" fill="#c9ced6"/><rect x="48" y="66" width="24" height="16" fill="#c9ced6"/><rect x="38" y="16" width="44" height="52" rx="12" fill="#c9ced6"/><rect x="44" y="22" width="32" height="40" rx="8" fill="#2a2d33"/>`]];
+ const acc=[['airpods-pro-2','AirPods Pro','Звук, который с вами','от 24 990 ₽','#/p/airpods-pro-2'],['apple-pencil','Apple Pencil','Для точных идей','от 12 990 ₽','#/p/apple-pencil'],['magsafe','MagSafe','Удобство в каждом касании','от 5 990 ₽','#/catalog?cat=Аксессуары'],['case','Аксессуары','Детали для вашего Apple','Смотреть подборку','#/catalog?cat=Аксессуары']];
  return `<div class="wrap"><div class="hero"><div><h1>Всё необходимое<br>в одном месте</h1><p>Подборка устройств для работы, творчества и повседневной жизни.</p><a class="btn" href="#/catalog">Смотреть каталог</a></div>${img('hero')}</div>
- <section><h2>Популярное</h2><small>Выбор VELOR</small><div class="grid g4">${pop.map(card).join('')}</div></section>
- <section><h2>Найди своё устройство</h2><small>Главные продукты Apple в одном месте</small><div class="grid g4 boxes">${tiles.map(t=>`<a class="tile" style="flex-direction:column;gap:2px" href="#/catalog?cat=${t[0]}"><h3 style="font-size:22px">${t[0]}</h3><small>${t[1]}</small></a>`).join('')}</div></section>
- <div class="dark"><h2>Откройте новые возможности</h2><p>Выбирайте технику под свои задачи.</p><a class="btn light" href="#/catalog">Все устройства</a></div>
+ <section><div class="sh"><div><h2>Популярное</h2><small>Выбор VELOR</small></div><a href="#/catalog">Смотреть всё →</a></div><div class="grid g4">${pop.map(card).join('')}</div></section>
+ <section><h2>Найди своё устройство</h2><small>Главные продукты Apple в одном месте</small><div class="grid g4 boxes">${tiles.map(t=>`<a class="tile" style="flex-direction:column;gap:2px" href="#/catalog?cat=${t[0]}"><svg viewBox="0 0 120 84" aria-hidden="true">${t[2]}</svg><h3 style="font-size:22px">${t[0]}</h3><small>${t[1]}</small></a>`).join('')}</div></section>
+ <div class="dark"><div><h2>Откройте новые возможности</h2><p>Выбирайте технику под свои задачи.</p><a class="btn light" href="#/catalog">Все устройства</a></div>${img('banner')}</div>
  <section><h2>Почему VELOR</h2><div class="cols">${[['Только оригинальная техника','Подбираем устройства Apple и внимательно относимся к каждой детали заказа.'],['Помощь с выбором','Поможем сравнить модели, память и цвет, чтобы вы нашли подходящий вариант.'],['Забота после покупки','Остаёмся на связи и помогаем разобраться с устройством после получения.']].map((c,i)=>`<div><small>0${i+1}</small><h3 style="margin-top:8px">${c[0]}</h3><p>${c[1]}</p></div>`).join('')}</div></section>
- <section><h2>Аксессуары</h2><small>Продумано до мелочей</small><div class="grid g4">${['airpods-pro-2','apple-pencil'].map(i=>card(byId(i))).join('')}<a class="card" href="#/catalog?cat=Аксессуары"><h3>Все аксессуары</h3><small>Детали для вашего Apple</small><b>Смотреть подборку ↗</b></a></div></section>
+ <section><div class="sh"><div><h2>Аксессуары</h2><small>Продумано до мелочей</small></div><a href="#/catalog?cat=Аксессуары">Все аксессуары ↗</a></div><div class="grid g4">${acc.map(a=>`<a class="card" href="${a[4]}">${img(a[0])}<h3>${a[1]}</h3><small>${a[2]}</small><b>${a[3]}</b></a>`).join('')}</div></section>
  <section><h2>Покупка и доставка</h2><small>Всё важное заранее</small><div class="grid boxes">${[['Доставка','Условия и доступные способы доставки уточняются при заказе.'],['Оплата','Выберите удобный способ оплаты при оформлении заказа.'],['Гарантия','Расскажем об условиях гарантии и документах на устройство.']].map(c=>`<a href="#/faq"><h3>${c[0]}</h3><p class="mut" style="font-size:14px;margin-top:6px">${c[1]}</p></a>`).join('')}</div></section>
  <section id="faq"><h2>Вопросы и ответы</h2><small>Перед покупкой</small><div style="margin-top:18px">${FAQ.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('')}</div></section>
  <section><div class="news"><div><h2>Новости, новые поступления и подборки — только самое интересное</h2><small>Будьте ближе к новому</small></div><form id="sub"><input type="email" required placeholder="Ваш e-mail" aria-label="E-mail"><button class="btn">Подписаться</button></form></div></section></div>`;
 }
 function catalog(){
  const f=S.f,cats=['iPhone','Mac','iPad','Watch','Audio','Аксессуары'];
- return `<div class="wrap" id="flt"><p class="crumb">Главная / Каталог</p><h1 style="font-size:clamp(32px,4vw,44px)">Каталог</h1><p class="mut">Устройства и аксессуары Apple</p>
+ return `<div class="wrap" id="flt"><p class="crumb"><a href="#/">Главная</a> / Каталог</p><h1 style="font-size:clamp(32px,4vw,44px)">Каталог</h1><p class="mut">Устройства и аксессуары Apple</p>
  <div class="top"><input type="search" id="q" placeholder="Поиск по названию" aria-label="Поиск" value="${f.q}"><button class="fbtn" data-a="fl">Фильтры</button></div>
  <div class="cat"><aside class="side" id="side"><b>Фильтры</b><h4>Категория</h4>${cats.map(c=>`<label><input type="checkbox" name="c" value="${c}" ${f.cats.includes(c)?'checked':''}>${c}</label>`).join('')}
  <h4>Цена, ₽</h4><div class="pr"><input type="number" id="min" placeholder="От" min="0" value="${f.min||''}"><input type="number" id="max" placeholder="До" min="0" value="${f.max||''}"></div>
@@ -192,7 +202,7 @@ function product(p){
  const ic=p.cat=='iPhone',v=variant(p);
  const spec=p.spec||[['Категория',p.cat],['Конфигурация',p.sub],['Наличие',p.stock?'В наличии':'Нет в наличии']];
  const btn=p.stock?`<button class="btn %C" data-a="add">%T</button>`:`<button class="btn %C" disabled>Нет в наличии</button>`;
- return `<div class="wrap"><p class="crumb">Главная / Каталог / ${p.cat} / ${p.name}</p><div class="pg">${img(p.id,'big')}<div class="info"><h1 style="font-size:clamp(32px,4vw,46px)">${p.name}</h1><p class="mut">${v}</p><div class="price">${fmt(p.price)}</div><p class="mut">${p.stock?'В наличии':'Нет в наличии'}</p>
+ return `<div class="wrap"><p class="crumb"><a href="#/">Главная</a> / <a href="#/catalog">Каталог</a> / <a href="#/catalog?cat=${p.cat}">${p.cat}</a> / ${p.name}</p><div class="pg">${img(p.id,'big')}<div class="info"><h1 style="font-size:clamp(32px,4vw,46px)">${p.name}</h1><p class="mut">${v}</p><div class="price">${fmt(p.price)}</div><p class="mut">${p.stock?'В наличии':'Нет в наличии'}</p>
  ${ic?`<p class="mut" style="margin-top:14px;font-size:14px">Цвет: ${COL[sel.c].n}</p><div class="opt">${COL.map((c,i)=>`<button class="sw ${i==sel.c?'on':''}" style="background:${c.h}" data-a="col" data-v="${i}" aria-label="${c.n}"></button>`).join('')}</div>`:''}
  ${p.m.length>1?`<p class="mut" style="font-size:14px">Память</p><div class="opt">${p.m.map(m=>`<button class="mm ${m==sel.m?'on':''}" data-a="mm" data-v="${m}">${m}</button>`).join('')}</div>`:''}
  <div class="dsk">${btn.replace('%C','').replace('%T','Добавить в корзину')}</div><button class="btn ghost" data-a="fav">${fav.includes(p.id)?'♥ В избранном':'♡ В избранное'}</button><a class="mut" href="#/faq" style="font-size:14px">Доставка и гарантия</a></div></div>
