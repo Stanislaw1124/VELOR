@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELOR — техника Apple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{--bg:#f4f4f2;--w:#fff;--ink:#1c1c1c;--mut:#6f6f6f;--acc:#364a5e;--line:#e2e2de}
+*{box-sizing:border-box;margin:0}
+body{font:400 16px/1.5 Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.mut{color:var(--mut)}small{font-size:13px;color:var(--mut)}
+header{background:var(--w);position:sticky;top:0;z-index:10}
+.bar{display:flex;align-items:center;gap:28px;height:64px}
+.logo{font-weight:700;font-size:22px;letter-spacing:.02em}
+nav{display:flex;gap:22px;color:var(--mut);font-size:15px}
+nav a.on{color:var(--ink);font-weight:600}
+.tools{margin-left:auto;display:flex;gap:22px;font-size:15px;font-weight:500}
+.burger{display:none;font-size:24px;line-height:1}
+.btn{display:inline-block;background:var(--acc);color:#fff;font-weight:600;border-radius:12px;padding:14px 26px;text-align:center}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:var(--w);color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.light{background:#fff;color:var(--ink)}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.1;font-weight:600;letter-spacing:-.01em}
+h2{font-size:clamp(26px,3.4vw,34px);font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+h3{font-size:17px;font-weight:600}
+section{padding:44px 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(2,1fr);margin-top:24px}
+.card{background:var(--w);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:2px}
+.card b{font-size:18px;margin-top:6px}
+.card .ph{margin-bottom:10px}
+.ph{background:var(--w);border-radius:12px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ph img{max-width:90%;max-height:90%;object-fit:contain}
+.ph.no{background:#ecece8}
+.hero{display:grid;gap:24px;align-items:center;padding:40px 0}
+.hero p{color:var(--mut);max-width:34ch;margin:18px 0 26px}
+.hero .ph{background:transparent;aspect-ratio:1/1}
+.tile{background:#ecece9;border-radius:14px;padding:22px;display:flex;justify-content:space-between;align-items:flex-start;min-height:104px}
+.dark{background:#1c1c1c;color:#fff;border-radius:24px;padding:36px 28px;margin:20px 0}
+.dark p{opacity:.8;margin:6px 0 20px}
+.cols{display:grid;gap:22px;margin-top:22px}
+.cols>div{border-top:1px solid var(--line);padding-top:14px}
+.cols p{color:var(--mut);font-size:14px;margin-top:6px}
+.boxes>a{background:#ecece9;border-radius:14px;padding:22px;display:block}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";font-size:20px}details[open] summary::after{content:"–"}
+details p{color:var(--mut);margin-top:8px}
+.news{background:#ecece9;border-radius:16px;padding:28px;display:grid;gap:16px}
+.news form{display:flex;gap:10px;flex-wrap:wrap}
+input[type=email],input[type=number],input[type=text],input[type=search],select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;min-width:0}
+.news input{flex:1;min-width:180px}
+footer{background:#1c1c1c;color:#fff;padding:40px 0;margin-top:40px}
+footer p{opacity:.7;font-size:14px;margin-top:8px;max-width:70ch}
+.crumb{color:var(--mut);font-size:14px;padding:22px 0 14px}
+.cat{display:grid;gap:20px}
+.side{display:none;background:#fff;border-radius:16px;padding:20px;align-self:start}
+.side.show{display:block}
+.side h4{font-size:15px;font-weight:500;margin:18px 0 8px}
+.side label{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--mut);padding:3px 0}
+.pr{display:flex;gap:8px}.pr input{width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 6px}
+.fbtn{background:#fff;border-radius:10px;padding:11px 16px}
+.pg{display:grid;gap:24px}
+.big{aspect-ratio:1/1;border-radius:24px}
+.price{font-size:34px;font-weight:700;margin:10px 0}
+.opt{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 18px}
+.sw{width:40px;height:40px;border-radius:50%;border:2px solid var(--line)}
+.sw.on{border-color:var(--acc);box-shadow:0 0 0 2px #fff inset}
+.mm{background:#fff;border-radius:10px;padding:10px 18px;font-size:15px}
+.mm.on{background:var(--acc);color:#fff}
+.info .btn{display:block;width:100%;margin-bottom:10px}
+dl{display:grid;grid-template-columns:minmax(120px,220px) 1fr;gap:10px 16px;margin-top:14px;font-size:15px}
+dt{color:var(--mut)}dd{margin:0}
+.info+*{}
+.sb{position:sticky;bottom:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;margin-top:28px;gap:12px}
+.sb b{font-size:20px;display:block}
+.row{background:#fff;border-radius:16px;padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.row .ph{width:76px;aspect-ratio:1;flex:none}
+.row>div:nth-child(2){flex:1}
+.q{display:flex;align-items:center;gap:14px}
+.q button{font-size:20px;width:28px}
+.sum{background:#fff;border-radius:16px;padding:20px;align-self:start}
+.sum .l{display:flex;justify-content:space-between;padding:12px 0;color:var(--mut)}
+.sum .t{display:flex;justify-content:space-between;align-items:center;padding:16px 0;font-size:22px;font-weight:600;color:var(--ink)}
+.promo{display:flex;gap:8px;margin:10px 0}.promo input{flex:1;background:var(--bg)}
+.cw{display:grid;gap:20px}
+.empty{text-align:center;padding:70px 0}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:12px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;max-width:90vw}
+#toast.on{opacity:1}
+@media(max-width:767px){
+nav{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;padding:12px 20px 18px;gap:14px;border-top:1px solid var(--line)}
+nav.open{display:flex}
+.burger{display:block}.bar{gap:16px}.hm{display:none}.dsk{display:none!important}
+}
+@media(min-width:768px){
+.grid{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.hero{grid-template-columns:1fr 1fr}
+.cols{grid-template-columns:repeat(3,1fr)}
+.news{grid-template-columns:1fr 1fr;align-items:center}
+.pg{grid-template-columns:1fr 1fr}
+.sb{display:none}
+.boxes{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-width:1000px){.cw{grid-template-columns:1fr 340px}}
+@media(min-width:1100px){
+.cat{grid-template-columns:250px 1fr}.side{display:block}.fbtn{display:none}
+.dark{padding:48px}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar" id="hd"></div></header>
+<main id="app"></main>
+<footer><div class="wrap"><b style="font-size:22px">VELOR</b><p style="opacity:1;font-size:17px">Техника Apple. Внимание к деталям.</p><p>VELOR — независимый магазин техники, не является официальным представителем Apple. © 2026 VELOR · Политика конфиденциальности</p></div></footer>
+<div id="toast" role="status"></div>
+<script>
+/* ===== Данные: правьте товары здесь. Фото кладите в папку img/ под именем <id>.png ===== */
+const COL=[{n:'Natural Titanium',h:'#b8ada0'},{n:'Black',h:'#2a2a2c'},{n:'White Titanium',h:'#e8e8e4'},{n:'Desert Titanium',h:'#c8a98a'}];
+const P=[
+{id:'iphone-16-pro',cat:'iPhone',name:'iPhone 16 Pro',sub:'256 ГБ · Natural Titanium',price:124990,stock:1,m:['128 ГБ','256 ГБ','512 ГБ','1 ТБ'],dm:1,c:0,
+ desc:'6,3-дюймовый OLED-дисплей Super Retina XDR с частотой обновления 120 Гц. Процессор A18 Pro обеспечивает высокую производительность, а система камер 48 Мп Fusion, 48 Мп Ultra Wide и 12 Мп Telephoto с 5-кратным оптическим зумом позволяет делать детализированные фото и видео.',
+ spec:[['Дисплей','6,3″ Super Retina XDR OLED'],['Процессор','Apple A18 Pro'],['Основная камера','48 Мп + 48 Мп + 12 Мп'],['Фронтальная камера','12 Мп'],['Память','128 / 256 / 512 ГБ / 1 ТБ'],['Корпус','Титан'],['Защита','IP68'],['Разъём','USB-C'],['Связь','5G, Wi-Fi, Bluetooth']]},
+{id:'iphone-16',cat:'iPhone',name:'iPhone 16',sub:'128 ГБ · Black',price:89990,stock:1,m:['128 ГБ','256 ГБ','512 ГБ'],dm:0,c:1},
+{id:'macbook-air-13',cat:'Mac',name:'MacBook Air 13″',sub:'M4 · 16/256 ГБ',price:134990,stock:1,m:['256 ГБ']},
+{id:'macbook-pro-14',cat:'Mac',name:'MacBook Pro 14″',sub:'M4 · 16/512 ГБ',price:219990,stock:1,m:['512 ГБ']},
+{id:'ipad-air-11',cat:'iPad',name:'iPad Air 11″',sub:'M3 · 128 ГБ · Wi-Fi',price:74990,stock:1,m:['128 ГБ']},
+{id:'apple-watch-s11',cat:'Watch',name:'Apple Watch Series 11',sub:'GPS',price:39990,stock:0,m:[]},
+{id:'airpods-pro-2',cat:'Audio',name:'AirPods Pro 2',sub:'USB-C',price:24990,stock:1,m:[]},
+{id:'apple-pencil',cat:'Аксессуары',name:'Apple Pencil',sub:'Для iPad',price:12990,stock:1,m:[]}
+];
+const FAQ=[['Как выбрать подходящую модель?','Сравните характеристики или обратитесь к нам — поможем разобраться.'],['Можно ли уточнить наличие и цвет?','Актуальную комплектацию и доступность подтвердим перед оформлением.'],['Где узнать подробности доставки?','Способы, сроки и стоимость зависят от адреса и отображаются при заказе.']];
+const PROMO={VELOR10:.1};
+/* ===== Состояние ===== */
+const $=s=>document.querySelector(s),app=$('#app');
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let cart=ld('velor.cart',[]),fav=ld('velor.fav',[]),promo=ld('velor.promo',''),sel={m:'',c:0},S={f:{cats:[],mem:[],min:0,max:0,q:'',sort:'pop',fav:0}},cur='';
+const fmt=n=>n.toLocaleString('ru-RU')+' ₽',byId=id=>P.find(p=>p.id==id);
+const plural=(n,a,b,c)=>n%10==1&&n%100!=11?a:[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?b:c;
+const cnt=()=>cart.reduce((s,x)=>s+x.q,0);
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)};
+const img=(id,c='')=>`<div class="ph ${c}"><img src="img/${id}.png" alt="" loading="lazy" onerror="this.parentNode.classList.add('no');this.remove()"></div>`;
+const variant=p=>p.cat=='iPhone'?sel.m+' · '+COL[sel.c].n:p.sub;
+/* ===== Шапка ===== */
+function header(){
+ const on=k=>cur==k?' class="on"':'';
+ $('#hd').innerHTML=`<button class="burger" data-a="nav" aria-label="Меню">☰</button><a class="logo" href="#/">VELOR</a>
+ <nav id="nav"><a href="#/"${on('home')}>Магазин</a><a href="#/catalog"${on('catalog')}>Каталог</a><a href="#/faq"${on('faq')}>Поддержка</a></nav>
+ <div class="tools"><a class="hm" href="#/catalog?focus">Поиск</a><a class="hm" href="#/catalog?fav">Избранное${fav.length?' ('+fav.length+')':''}</a><a href="#/cart"${on('cart')}>Корзина (${cnt()})</a></div>`;
+}
+/* ===== Страницы ===== */
+const card=p=>`<a class="card" href="#/p/${p.id}">${img(p.id)}<small>${p.cat}</small><h3>${p.name}</h3><small>${p.sub}${p.stock?'':' · нет в наличии'}</small><b>${fmt(p.price)}</b></a>`;
+function home(){
+ const pop=['iphone-16-pro','macbook-air-13','ipad-air-11','airpods-pro-2'].map(byId);
+ const tiles=[['iPhone','Смартфоны'],['Mac','Компьютеры'],['iPad','Планшеты'],['Watch','Часы и здоровье']];
+ return `<div class="wrap"><div class="hero"><div><h1>Всё необходимое<br>в одном месте</h1><p>Подборка устройств для работы, творчества и повседневной жизни.</p><a class="btn" href="#/catalog">Смотреть каталог</a></div>${img('hero')}</div>
+ <section><h2>Популярное</h2><small>Выбор VELOR</small><div class="grid g4">${pop.map(card).join('')}</div></section>
+ <section><h2>Найди своё устройство</h2><small>Главные продукты Apple в одном месте</small><div class="grid g4 boxes">${tiles.map(t=>`<a class="tile" style="flex-direction:column;gap:2px" href="#/catalog?cat=${t[0]}"><h3 style="font-size:22px">${t[0]}</h3><small>${t[1]}</small></a>`).join('')}</div></section>
+ <div class="dark"><h2>Откройте новые возможности</h2><p>Выбирайте технику под свои задачи.</p><a class="btn light" href="#/catalog">Все устройства</a></div>
+ <section><h2>Почему VELOR</h2><div class="cols">${[['Только оригинальная техника','Подбираем устройства Apple и внимательно относимся к каждой детали заказа.'],['Помощь с выбором','Поможем сравнить модели, память и цвет, чтобы вы нашли подходящий вариант.'],['Забота после покупки','Остаёмся на связи и помогаем разобраться с устройством после получения.']].map((c,i)=>`<div><small>0${i+1}</small><h3 style="margin-top:8px">${c[0]}</h3><p>${c[1]}</p></div>`).join('')}</div></section>
+ <section><h2>Аксессуары</h2><small>Продумано до мелочей</small><div class="grid g4">${['airpods-pro-2','apple-pencil'].map(i=>card(byId(i))).join('')}<a class="card" href="#/catalog?cat=Аксессуары"><h3>Все аксессуары</h3><small>Детали для вашего Apple</small><b>Смотреть подборку ↗</b></a></div></section>
+ <section><h2>Покупка и доставка</h2><small>Всё важное заранее</small><div class="grid boxes">${[['Доставка','Условия и доступные способы доставки уточняются при заказе.'],['Оплата','Выберите удобный способ оплаты при оформлении заказа.'],['Гарантия','Расскажем об условиях гарантии и документах на устройство.']].map(c=>`<a href="#/faq"><h3>${c[0]}</h3><p class="mut" style="font-size:14px;margin-top:6px">${c[1]}</p></a>`).join('')}</div></section>
+ <section id="faq"><h2>Вопросы и ответы</h2><small>Перед покупкой</small><div style="margin-top:18px">${FAQ.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('')}</div></section>
+ <section><div class="news"><div><h2>Новости, новые поступления и подборки — только самое интересное</h2><small>Будьте ближе к новому</small></div><form id="sub"><input type="email" required placeholder="Ваш e-mail" aria-label="E-mail"><button class="btn">Подписаться</button></form></div></section></div>`;
+}
+function catalog(){
+ const f=S.f,cats=['iPhone','Mac','iPad','Watch','Audio','Аксессуары'];
+ return `<div class="wrap" id="flt"><p class="crumb">Главная / Каталог</p><h1 style="font-size:clamp(32px,4vw,44px)">Каталог</h1><p class="mut">Устройства и аксессуары Apple</p>
+ <div class="top"><input type="search" id="q" placeholder="Поиск по названию" aria-label="Поиск" value="${f.q}"><button class="fbtn" data-a="fl">Фильтры</button></div>
+ <div class="cat"><aside class="side" id="side"><b>Фильтры</b><h4>Категория</h4>${cats.map(c=>`<label><input type="checkbox" name="c" value="${c}" ${f.cats.includes(c)?'checked':''}>${c}</label>`).join('')}
+ <h4>Цена, ₽</h4><div class="pr"><input type="number" id="min" placeholder="От" min="0" value="${f.min||''}"><input type="number" id="max" placeholder="До" min="0" value="${f.max||''}"></div>
+ <h4>Память</h4>${['128 ГБ','256 ГБ','512 ГБ'].map(m=>`<label><input type="checkbox" name="m" value="${m}">${m}</label>`).join('')}</aside>
+ <div><div class="top" style="margin-top:0"><small id="cnt"></small><select id="sort" aria-label="Сортировка"><option value="pop">Сначала популярные</option><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></div><div class="grid" id="list" style="margin-top:12px"></div></div></div></div>`;
+}
+function drawList(){
+ const f=S.f;
+ let l=P.filter(p=>(!f.cats.length||f.cats.includes(p.cat))&&(!f.mem.length||f.mem.some(m=>p.m.includes(m)))&&(!f.min||p.price>=f.min)&&(!f.max||p.price<=f.max)&&(!f.q||p.name.toLowerCase().includes(f.q))&&(!f.fav||fav.includes(p.id)));
+ if(f.sort=='asc')l.sort((a,b)=>a.price-b.price);if(f.sort=='desc')l.sort((a,b)=>b.price-a.price);
+ $('#cnt').textContent=(f.fav?'В избранном: ':'Найдено ')+l.length+' '+plural(l.length,'товар','товара','товаров');
+ $('#list').innerHTML=l.map(card).join('')||'<p class="mut">Ничего не найдено. Измените фильтры или сбросьте поиск.</p>';
+}
+function product(p){
+ const ic=p.cat=='iPhone',v=variant(p);
+ const spec=p.spec||[['Категория',p.cat],['Конфигурация',p.sub],['Наличие',p.stock?'В наличии':'Нет в наличии']];
+ const btn=p.stock?`<button class="btn %C" data-a="add">%T</button>`:`<button class="btn %C" disabled>Нет в наличии</button>`;
+ return `<div class="wrap"><p class="crumb">Главная / Каталог / ${p.cat} / ${p.name}</p><div class="pg">${img(p.id,'big')}<div class="info"><h1 style="font-size:clamp(32px,4vw,46px)">${p.name}</h1><p class="mut">${v}</p><div class="price">${fmt(p.price)}</div><p class="mut">${p.stock?'В наличии':'Нет в наличии'}</p>
+ ${ic?`<p class="mut" style="margin-top:14px;font-size:14px">Цвет: ${COL[sel.c].n}</p><div class="opt">${COL.map((c,i)=>`<button class="sw ${i==sel.c?'on':''}" style="background:${c.h}" data-a="col" data-v="${i}" aria-label="${c.n}"></button>`).join('')}</div>`:''}
+ ${p.m.length>1?`<p class="mut" style="font-size:14px">Память</p><div class="opt">${p.m.map(m=>`<button class="mm ${m==sel.m?'on':''}" data-a="mm" data-v="${m}">${m}</button>`).join('')}</div>`:''}
+ <div class="dsk">${btn.replace('%C','').replace('%T','Добавить в корзину')}</div><button class="btn ghost" data-a="fav">${fav.includes(p.id)?'♥ В избранном':'♡ В избранное'}</button><a class="mut" href="#/faq" style="font-size:14px">Доставка и гарантия</a></div></div>
+ <h2 style="margin-top:32px">О товаре</h2><p class="mut" style="max-width:70ch">${p.desc||'Подробные характеристики и комплектацию уточняйте у менеджера VELOR.'}</p>
+ <h2 style="margin-top:26px">Характеристики</h2><dl>${spec.map(s=>`<dt>${s[0]}</dt><dd>${s[1]}</dd>`).join('')}</dl></div>
+ <div class="sb"><div><small>${v}</small><b>${fmt(p.price)}</b></div>${btn.replace('%C','').replace('%T','В корзину')}</div>`;
+}
+function totals(){const s=cart.reduce((a,x)=>a+byId(x.id).price*x.q,0),d=PROMO[promo]?Math.round(s*PROMO[promo]):0;return{s,d,t:s-d}}
+function cartPage(){
+ if(!cart.length)return `<div class="wrap empty"><h1>Корзина пуста</h1><p class="mut" style="margin:10px 0 24px">Добавьте устройства из каталога.</p><a class="btn" href="#/catalog">Перейти в каталог</a></div>`;
+ const T=totals(),n=cnt();
+ return `<div class="wrap" style="padding-top:28px"><h1>Корзина</h1><p class="mut" style="margin:6px 0 20px">${n} ${plural(n,'товар','товара','товаров')}</p><div class="cw"><div>
+ ${cart.map((x,i)=>{const p=byId(x.id);return `<div class="row">${img(p.id)}<div><h3>${p.name}</h3><small>${x.v}</small><div><b>${fmt(p.price)}</b></div></div><div class="q"><button data-a="dec" data-v="${i}" aria-label="Меньше">−</button><span>${x.q}</span><button data-a="inc" data-v="${i}" aria-label="Больше">+</button><button data-a="rm" data-v="${i}" aria-label="Удалить">×</button></div></div>`}).join('')}</div>
+ <div class="sum"><b>Ваш заказ</b><div class="l"><span>Товары (${n})</span><span>${fmt(T.s)}</span></div>${T.d?`<div class="l"><span>Скидка по промокоду</span><span>−${fmt(T.d)}</span></div>`:''}<div class="l"><span>Доставка</span><span style="color:var(--ink)">Бесплатно</span></div>
+ <div class="promo"><input type="text" id="pc" placeholder="Промокод" aria-label="Промокод" value="${promo}"><button class="btn ghost" data-a="promo" style="padding:10px 16px">Применить</button></div>
+ <div class="t"><span>Итого</span><span>${fmt(T.t)}</span></div><button class="btn dsk" style="width:100%" data-a="pay">Перейти к оформлению</button></div></div></div>
+ <div class="sb"><div><small>Итого</small><b>${fmt(T.t)}</b></div><button class="btn" data-a="pay">Оформить</button></div>`;
+}
+/* ===== Роутер ===== */
+function render(){
+ const h=location.hash.slice(1)||'/',[path,qs]=h.split('?'),pt=path.split('/').filter(Boolean),qp=new URLSearchParams(qs||'');
+ cur=!pt.length?'home':pt[0]=='faq'?'faq':pt[0]=='cart'?'cart':'catalog';
+ if(pt[0]=='catalog'){
+  if(render.k!=h||!$('#list')){S.f={cats:qp.get('cat')?[qp.get('cat')]:[],mem:[],min:0,max:0,q:'',sort:'pop',fav:qp.has('fav')?1:0};render.k=h;app.innerHTML=catalog();drawList();if(qp.has('focus'))$('#q').focus()}
+ }else if(pt[0]=='p'){
+  const p=byId(pt[1]);
+  if(!p){app.innerHTML='<div class="wrap empty"><h1>Товар не найден</h1><p style="margin-top:20px"><a class="btn" href="#/catalog">В каталог</a></p></div>'}
+  else{if(render.p!=p.id){sel={m:p.m[p.dm||0]||'',c:p.c||0};render.p=p.id}app.innerHTML=product(p)}
+ }else if(pt[0]=='cart')app.innerHTML=cartPage();
+ else{app.innerHTML=home()}
+ render.h=h;header();
+}
+addEventListener('hashchange',()=>{render.p=0;render();if(location.hash.startsWith('#/faq'))$('#faq')?.scrollIntoView();else scrollTo(0,0)});
+/* ===== Действия ===== */
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,v=t.dataset.v,pid=(location.hash.split('/')[2]||'').split('?')[0],p=byId(pid);
+ if(a=='nav')$('#nav').classList.toggle('open');
+ else if(a=='fl')$('#side').classList.toggle('show');
+ else if(a=='col'){sel.c=+v;render()}
+ else if(a=='mm'){sel.m=v;render()}
+ else if(a=='fav'&&p){fav=fav.includes(p.id)?fav.filter(x=>x!=p.id):[...fav,p.id];sv('velor.fav',fav);render()}
+ else if(a=='add'&&p){const vr=variant(p),l=cart.find(x=>x.id==p.id&&x.v==vr);l?l.q++:cart.push({id:p.id,v:vr,q:1});sv('velor.cart',cart);header();toast(p.name+' добавлен в корзину')}
+ else if(['inc','dec','rm'].includes(a)){const l=cart[+v];if(a=='inc')l.q++;if(a=='dec'&&l.q>1)l.q--;if(a=='rm')cart.splice(+v,1);sv('velor.cart',cart);render()}
+ else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
+ else if(a=='pay')toast('Оформление заказа пока не подключено — это демо-версия');
+});
+document.addEventListener('input',e=>{
+ if(!e.target.closest('#flt'))return;const F=S.f;
+ F.cats=[...document.querySelectorAll('#flt [name=c]:checked')].map(x=>x.value);
+ F.mem=[...document.querySelectorAll('#flt [name=m]:checked')].map(x=>x.value);
+ F.min=+$('#min').value||0;F.max=+$('#max').value||0;F.q=$('#q').value.trim().toLowerCase();F.sort=$('#sort').value;drawList();
+});
+document.addEventListener('submit',e=>{if(e.target.id=='sub'){e.preventDefault();e.target.reset();toast('Демо: адрес никуда не отправляется')}});
+render();
+</script>
+</body>
+</html>
