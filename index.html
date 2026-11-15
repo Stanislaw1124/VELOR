@@ -221,18 +221,73 @@ function cartPage(){
  <div class="t"><span>Итого</span><span>${fmt(T.t)}</span></div><button class="btn dsk" style="width:100%" data-a="pay">Перейти к оформлению</button></div></div></div>
  <div class="sb"><div><small>Итого</small><b>${fmt(T.t)}</b></div><button class="btn" data-a="pay">Оформить</button></div>`;
 }
+function checkoutPage(){
+  if(!cart.length){
+    return `<div class="wrap empty">
+      <h1>Корзина пуста</h1>
+      <a class="btn" href="#/catalog">В каталог</a>
+    </div>`;
+  }
+  const T = totals();
+  return `
+  <div class="wrap" style="padding:30px 20px">
+    <h1>Оформление заказа</h1>
+    <p class="mut" style="margin:8px 0 24px">
+      Заполните данные для оформления покупки
+    </p>
+    <form id="order-form" style="max-width:600px;display:grid;gap:14px">
+      <label>Ваше имя
+        <input name="customer_name" type="text" required placeholder="Иван Иванов" style="width:100%">
+      </label>
+      <label>Телефон
+        <input name="customer_phone" type="text" required placeholder="+7 999 123-45-67" style="width:100%">
+      </label>
+      <label>E-mail
+        <input name="customer_email" type="email" placeholder="mail@example.com" style="width:100%">
+      </label>
+      <label>Адрес доставки
+        <input name="address" type="text" required placeholder="Город, улица, дом" style="width:100%">
+      </label>
+      <label>Комментарий
+        <textarea name="comment" rows="3" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px"></textarea>
+      </label>
+      <div style="font-size:22px;font-weight:600">
+        Итого: ${fmt(T.t)}
+      </div>
+      <button class="btn" type="submit" id="order-submit">
+        Подтвердить заказ
+      </button>
+      <p id="order-error" style="color:#b42318"></p>
+    </form>
+  </div>`;
+}
+ function successPage(){
+  return `<div class="wrap empty">
+    <h1>Заказ оформлен!</h1>
+    <p class="mut" style="margin:12px 0 24px">
+      Спасибо за покупку. Мы свяжемся с вами для подтверждения заказа.
+    </p>
+    <a class="btn" href="#/">Вернуться в магазин</a>
+  </div>`;
+}
 /* ===== Роутер ===== */
 function render(){
  const h=location.hash.slice(1)||'/',[path,qs]=h.split('?'),pt=path.split('/').filter(Boolean),qp=new URLSearchParams(qs||'');
- cur=!pt.length?'home':pt[0]=='faq'?'faq':pt[0]=='cart'?'cart':'catalog';
+ cur=!pt.length?'home':
+pt[0]=='faq'?'faq':
+pt[0]=='cart'?'cart':
+pt[0]=='checkout'?'checkout':
+pt[0]=='success'?'success':'catalog';
  if(pt[0]=='catalog'){
   if(render.k!=h||!$('#list')){S.f={cats:qp.get('cat')?[qp.get('cat')]:[],mem:[],min:0,max:0,q:'',sort:'pop',fav:qp.has('fav')?1:0};render.k=h;app.innerHTML=catalog();drawList();if(qp.has('focus'))$('#q').focus()}
  }else if(pt[0]=='p'){
   const p=byId(pt[1]);
   if(!p){app.innerHTML='<div class="wrap empty"><h1>Товар не найден</h1><p style="margin-top:20px"><a class="btn" href="#/catalog">В каталог</a></p></div>'}
   else{if(render.p!=p.id){sel={m:p.m[p.dm||0]||'',c:p.c||0};render.p=p.id}app.innerHTML=product(p)}
- }else if(pt[0]=='cart')app.innerHTML=cartPage();
- else{app.innerHTML=home()}
+}else if(pt[0]=='cart')app.innerHTML=cartPage();
+else if(pt[0]=='checkout')app.innerHTML=checkoutPage();
+else if(pt[0]=='success')app.innerHTML=successPage();
+else{app.innerHTML=home()}
  render.h=h;header();
 }
 addEventListener('hashchange',()=>{render.p=0;render();if(location.hash.startsWith('#/faq'))$('#faq')?.scrollIntoView();else scrollTo(0,0)});
@@ -247,16 +302,40 @@ document.addEventListener('click',e=>{
  else if(a=='add'&&p){const vr=variant(p),l=cart.find(x=>x.id==p.id&&x.v==vr);l?l.q++:cart.push({id:p.id,v:vr,q:1});sv('velor.cart',cart);header();toast(p.name+' добавлен в корзину')}
  else if(['inc','dec','rm'].includes(a)){const l=cart[+v];if(a=='inc')l.q++;if(a=='dec'&&l.q>1)l.q--;if(a=='rm')cart.splice(+v,1);sv('velor.cart',cart);render()}
  else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
- else if(a=='pay')toast('Оформление заказа пока не подключено — это демо-версия');
-});
+ else if(a=='pay')location.hash='#/checkout';
 document.addEventListener('input',e=>{
  if(!e.target.closest('#flt'))return;const F=S.f;
  F.cats=[...document.querySelectorAll('#flt [name=c]:checked')].map(x=>x.value);
  F.mem=[...document.querySelectorAll('#flt [name=m]:checked')].map(x=>x.value);
  F.min=+$('#min').value||0;F.max=+$('#max').value||0;F.q=$('#q').value.trim().toLowerCase();F.sort=$('#sort').value;drawList();
 });
-document.addEventListener('submit',e=>{if(e.target.id=='sub'){e.preventDefault();e.target.reset();toast('Демо: адрес никуда не отправляется')}});
+  .from('orders')
+        .insert(order);
+      if(error) throw error;
+      cart=[];
+      sv('velor.cart',cart);
+      promo='';
+      sv('velor.promo',promo);
+      location.hash='#/success';
+      header();
+    }catch(err){
+      console.error(err);
+      errorBox.textContent='Не удалось отправить заказ: '+err.message;
+      button.disabled=false;
+      button.textContent='Подтвердить заказ';
+    }
+  }
+});
 render();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://eqeeaiqkwpnnbrzofxix.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Lin4bmTfnbJ5_Ol4SzBEgw_eZ1gU6Q2';
+const sb = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 </script>
+
 </body>
 </html>
