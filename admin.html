@@ -143,7 +143,17 @@ async function save(){
  if(rows.some(r=>!(r.price>=0)||!(r.stock>=0)))return toast('Цена и остаток — числа не меньше 0');
  const specs=g('spec')?$('#f-spec').value.split('\n').map(l=>{const i=l.indexOf(':');return i<1?null:[l.slice(0,i).trim(),l.slice(i+1).trim()]}).filter(Boolean):[];
  const pid=ed.exists?ed.id:id;
- let r=await SB.from('products').upsert({id:pid,cat:g('cat'),name:g('name'),sub:g('sub'),description:$('#f-desc').value.trim(),specs,hidden:ed.hidden,sort:ed.sort});
+let r=await SB.from('products').upsert({
+  id:pid,
+  cat:g('cat'),
+  name:g('name'),
+  sub:g('sub'),
+  description:$('#f-desc').value.trim(),
+  specs,
+  price:rows[0].price,
+  hidden:ed.hidden,
+  sort:ed.sort
+});
  if(r.error)return toast('Ошибка: '+r.error.message);
  const keep=rows.filter(x=>x.id).map(x=>x.id),gone=ed.variants.filter(v=>v.id&&!keep.includes(v.id)).map(v=>v.id);
  for(const x of rows){const{id:vid,...f}=x;r=vid?await SB.from('variants').update(f).eq('id',vid):await SB.from('variants').insert({...f,product_id:pid});if(r.error)return toast('Ошибка варианта: '+r.error.message+' (память и цвет не должны повторяться)')}
