@@ -299,12 +299,10 @@ addEventListener('hashchange',()=>{render.p=0;render();if(location.hash.startsWi
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-a]');
  if(!t)return;
-
  const a=t.dataset.a,
        v=t.dataset.v,
        pid=(location.hash.split('/')[2]||'').split('?')[0],
        p=byId(pid);
-
  if(a=='nav')$('#nav').classList.toggle('open');
  else if(a=='fl')$('#side').classList.toggle('show');
  else if(a=='col'){sel.c=+v;render()}
