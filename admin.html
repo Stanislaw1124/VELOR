@@ -66,7 +66,7 @@ let D={products:[],orders:[]},view='home',q='',stF='',open=null,ed=null,authed=f
 const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3200)};
 
 async function load(){
- const [p,o]=await Promise.all([SB.from('products').select('*, variants(*)').order('sort'),SB.from('orders').select('*').order('created_at',{ascending:false})]);
+ const [p,o]=await Promise.all([SB.from('products').select('*').order('sort'),SB.from('orders').select('*').order('created_at',{ascending:false})]);
  if(p.error||o.error){toast('Не удалось загрузить данные: '+(p.error||o.error).message);return}
  D.products=p.data;D.orders=o.data;
 }
