@@ -184,7 +184,7 @@ function home(){
   ['apple-pencil','Apple Pencil','Для точных идей','#/p/apple-pencil'],
   ['magsafe','MagSafe','Удобство в каждом касании','#/catalog?cat=Аксессуары'],
   ['case','Аксессуары','Детали для вашего Apple','#/catalog?cat=Аксессуары']
-];'#/p/apple-pencil'],['magsafe','MagSafe','Удобство в каждом касании','от 5 990 ₽','#/catalog?cat=Аксессуары'],['case','Аксессуары','Детали для вашего Apple','Смотреть подборку','#/catalog?cat=Аксессуары']];
+];
  return `<div class="wrap"><div class="hero"><div><h1>Всё необходимое<br>в одном месте</h1><p>Подборка устройств для работы, творчества и повседневной жизни.</p><a class="btn" href="#/catalog">Смотреть каталог</a></div>${img('hero')}</div>
  <section><div class="sh"><div><h2>Популярное</h2><small>Выбор VELOR</small></div><a href="#/catalog">Смотреть всё →</a></div><div class="grid g4">${pop.map(card).join('')}</div></section>
  <section><h2>Найди своё устройство</h2><small>Главные продукты Apple в одном месте</small><div class="grid g4 boxes">${tiles.map(t=>`<a class="tile" style="flex-direction:column;gap:2px" href="#/catalog?cat=${t[0]}"><svg viewBox="0 0 120 84" aria-hidden="true">${t[2]}</svg><h3 style="font-size:22px">${t[0]}</h3><small>${t[1]}</small></a>`).join('')}</div></section>
