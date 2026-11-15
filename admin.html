@@ -147,7 +147,30 @@ function modal(){
  <div class="acts"><button class="btn" data-a="save">Сохранить</button><button class="btn g" data-a="close">Отмена</button></div></div></div>`;
 }
 const blank=()=>({exists:0,id:'',cat:'',name:'',sub:'',description:'',specs:[],hidden:false,sort:100,variants:[{memory:'',color:'',hex:'',price:'',stock:0}]});
-async function save(){
+ async function uploadProductImage(productId) {
+  const file = document.querySelector('#f-image')?.files?.[0];
+  if (!file) return null;
+  if (!file.type.startsWith('image/')) {
+    throw new Error('Выберите файл изображения');
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    throw new Error('Размер фотографии не должен превышать 5 МБ');
+  }
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = `${productId}.${ext}`;
+  const { error: uploadError } = await SB.storage
+    .from('product-images')
+    .upload(path, file, {
+      upsert: true,
+      contentType: file.type
+    });
+  if (uploadError) throw uploadError;
+  const { data } = SB.storage
+    .from('product-images')
+    .getPublicUrl(path);
+  return data.publicUrl;
+}
+ async function save(){
  const g=i=>$('#f-'+i).value.trim(),id=g('id');
  if(!ed.exists&&!/^[a-z0-9-]{2,60}$/.test(id))return toast('Код: только латиница, цифры и дефис');
  if(!g('name')||!g('cat'))return toast('Укажите название и категорию');
@@ -157,6 +180,13 @@ async function save(){
  if(rows.some(r=>!(r.price>=0)||!(r.stock>=0)))return toast('Цена и остаток — числа не меньше 0');
  const specs=g('spec')?$('#f-spec').value.split('\n').map(l=>{const i=l.indexOf(':');return i<1?null:[l.slice(0,i).trim(),l.slice(i+1).trim()]}).filter(Boolean):[];
  const pid=ed.exists?ed.id:id;
+  let imageUrl = ed.image_url || null;
+try {
+  const uploadedUrl = await uploadProductImage(pid);
+  if (uploadedUrl) imageUrl = uploadedUrl;
+} catch (error) {
+  return toast('Ошибка загрузки фото: ' + error.message);
+}
 let r=await SB.from('products').upsert({
   id:pid,
   cat:g('cat'),
