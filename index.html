@@ -160,7 +160,11 @@ const fmt=n=>n.toLocaleString('ru-RU')+' ₽',byId=id=>P.find(p=>p.id==id);
 const plural=(n,a,b,c)=>n%10==1&&n%100!=11?a:[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?b:c;
 const cnt=()=>cart.reduce((s,x)=>s+x.q,0);
 const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)};
-const img=(id,c='')=>`<div class="ph ${c}"><img src="img/${id}.png" alt="" loading="lazy" onerror="this.parentNode.classList.add('no');this.remove()"></div>`;
+const img=(id,c='')=>{
+  const p=P.find(x=>x.id===id);
+  const src=p?.image_url || `img/${id}.png`;
+  return `<div class="ph ${c}"><img src="${src}" alt="" loading="lazy" onerror="if(this.src!=='${`img/${id}.png`}'){this.src='img/${id}.png'}else{this.parentNode.classList.add('no');this.remove()}"></div>`;
+};
 const variant=p=>p.cat=='iPhone'?sel.m+' · '+COL[sel.c].n:p.sub;
 /* ===== Шапка ===== */
 function header(){
@@ -405,7 +409,7 @@ document.addEventListener('input',e=>{
 async function syncProductsFromSupabase() {
   const { data, error } = await sb
     .from('products')
-    .select('id, cat, name, sub, description, specs, price, variants, in_stock, hidden')
+   .select('id, cat, name, sub, description, specs, price, variants, in_stock, hidden, image_url')
     .eq('hidden', false)
     .order('sort');
   if (error) {
@@ -418,6 +422,7 @@ async function syncProductsFromSupabase() {
     return {
       ...old,
       id: row.id,
+     image_url: row.image_url || old.image_url || '',
       cat: row.cat || old.cat,
       name: row.name || old.name,
       sub: row.sub || old.sub || '',
