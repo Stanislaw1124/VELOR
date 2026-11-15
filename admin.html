@@ -139,7 +139,11 @@ function modal(){
  <label class="f">Характеристики (по одной в строке: Параметр: значение)<textarea id="f-spec" rows="4">${esc((p.specs||[]).map(s=>s[0]+': '+s[1]).join('\n'))}</textarea></label></div>
  <h2 style="font-size:17px">Варианты (SKU)</h2><div class="vr vh"><span>Память</span><span>Цвет</span><span>Цвет (hex)</span><span>Цена, ₽</span><span>Остаток</span><span></span></div><div id="vs">${p.variants.map(vrow).join('')}</div>
  <div class="acts" style="margin-top:12px"><button class="btn g" data-a="vadd">+ Вариант</button></div>
- <p class="mut" style="font-size:13px;margin-top:12px">Фото товара берётся из файла img/${esc(p.id||'код')}.png в репозитории сайта.</p>
+ <label class="f" style="margin-top:12px">
+  Фотография товара
+  <input id="f-image" type="file" accept="image/*">
+  <span class="mut" style="font-size:12px">Выберите изображение с компьютера</span>
+</label>
  <div class="acts"><button class="btn" data-a="save">Сохранить</button><button class="btn g" data-a="close">Отмена</button></div></div></div>`;
 }
 const blank=()=>({exists:0,id:'',cat:'',name:'',sub:'',description:'',specs:[],hidden:false,sort:100,variants:[{memory:'',color:'',hex:'',price:'',stock:0}]});
