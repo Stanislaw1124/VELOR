@@ -64,11 +64,21 @@ const ST={new:'Новый',processing:'В обработке',shipped:'Отпр�
 const LOW=3;
 let D={products:[],orders:[]},view='home',q='',stF='',open=null,ed=null,authed=false;
 const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3200)};
-
 async function load(){
- const [p,o]=await Promise.all([SB.from('products').select('*').order('sort'),SB.from('orders').select('*').order('created_at',{ascending:false})]);
- if(p.error||o.error){toast('Не удалось загрузить данные: '+(p.error||o.error).message);return}
- D.products=p.data;D.orders=o.data;
+ const [p,o,v]=await Promise.all([
+  SB.from('products').select('*').order('sort'),
+  SB.from('orders').select('*').order('created_at',{ascending:false}),
+  SB.from('variants').select('*')
+ ]);
+ if(p.error||o.error||v.error){
+  toast('Не удалось загрузить данные: '+(p.error||o.error||v.error).message);
+  return;
+ }
+ D.products=p.data.map(product=>({
+  ...product,
+  variants:v.data.filter(variant=>variant.product_id===product.id)
+ }));
+ D.orders=o.data;
 }
 function route(){
  const h=location.hash.slice(2),[v,f]=h.split('?');
