@@ -402,7 +402,43 @@ document.addEventListener('input',e=>{
  F.mem=[...document.querySelectorAll('#flt [name=m]:checked')].map(x=>x.value);
  F.min=+$('#min').value||0;F.max=+$('#max').value||0;F.q=$('#q').value.trim().toLowerCase();F.sort=$('#sort').value;drawList();
 });
+async function syncProductsFromSupabase() {
+  const { data, error } = await sb
+    .from('products')
+    .select('id, cat, name, sub, description, specs, price, variants, in_stock, hidden')
+    .eq('hidden', false)
+    .order('sort');
+  if (error) {
+    console.error('Ошибка загрузки товаров:', error);
+    return;
+  }
+  const oldProducts = new Map(P.map(p => [p.id, p]));
+  const updatedProducts = data.map(row => {
+    const old = oldProducts.get(row.id) || {};
+    return {
+      ...old,
+      id: row.id,
+      cat: row.cat || old.cat,
+      name: row.name || old.name,
+      sub: row.sub || old.sub || '',
+      price: Number(row.price),
+      stock: row.in_stock ? 1 : 0,
+      m: row.cat === 'iPhone'
+        ? (row.variants || [])
+        : (old.m || []),
+      desc: row.description || old.desc || '',
+      spec: Array.isArray(row.specs) && row.specs.length
+        ? row.specs
+        : old.spec
+    };
+  });
+  P.splice(0, P.length, ...updatedProducts);
+  render.k = null;
+  render.p = null;
+  render();
+}
 render();
+syncProductsFromSupabase();
 </script>
 </body>
 </html>
