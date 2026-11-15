@@ -143,10 +143,12 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     .eq('hidden', false)
     .order('sort');
   if (error) {
+   alert('Ошибка Supabase: ' + error.message);
     console.error('Ошибка загрузки товаров:', error);
     return;
   }
-  console.log('Товары из Supabase:', data);
+ alert('Успешно! Загружено товаров: ' + data.length);
+console.log('Товары из Supabase:', data);
 }
 testProductsConnection()
   .then(() => console.log('Проверка завершена'))
