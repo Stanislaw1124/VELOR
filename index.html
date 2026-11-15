@@ -297,19 +297,48 @@ else{app.innerHTML=home()}
 addEventListener('hashchange',()=>{render.p=0;render();if(location.hash.startsWith('#/faq'))$('#faq')?.scrollIntoView();else scrollTo(0,0)});
 /* ===== Действия ===== */
 document.addEventListener('click',e=>{
- const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,v=t.dataset.v,pid=(location.hash.split('/')[2]||'').split('?')[0],p=byId(pid);
+ const t=e.target.closest('[data-a]');
+ if(!t)return;
+
+ const a=t.dataset.a,
+       v=t.dataset.v,
+       pid=(location.hash.split('/')[2]||'').split('?')[0],
+       p=byId(pid);
+
  if(a=='nav')$('#nav').classList.toggle('open');
  else if(a=='fl')$('#side').classList.toggle('show');
  else if(a=='col'){sel.c=+v;render()}
  else if(a=='mm'){sel.m=v;render()}
- else if(a=='fav'&&p){fav=fav.includes(p.id)?fav.filter(x=>x!=p.id):[...fav,p.id];sv('velor.fav',fav);render()}
- else if(a=='add'&&p){const vr=variant(p),l=cart.find(x=>x.id==p.id&&x.v==vr);l?l.q++:cart.push({id:p.id,v:vr,q:1});sv('velor.cart',cart);header();toast(p.name+' добавлен в корзину')}
- else if(['inc','dec','rm'].includes(a)){const l=cart[+v];if(a=='inc')l.q++;if(a=='dec'&&l.q>1)l.q--;if(a=='rm')cart.splice(+v,1);sv('velor.cart',cart);render()}
- else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
- else if(a=='pay')location.hash='#/checkout';
-});
- else if(['inc','dec','rm'].includes(a)){const l=cart[+v];if(a=='inc')l.q++;if(a=='dec'&&l.q>1)l.q--;if(a=='rm')cart.splice(+v,1);sv('velor.cart',cart);render()}
- else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
+ else if(a=='fav'&&p){
+   fav=fav.includes(p.id)?fav.filter(x=>x!=p.id):[...fav,p.id];
+   sv('velor.fav',fav);
+   render();
+ }
+ else if(a=='add'&&p){
+   const vr=variant(p),
+         l=cart.find(x=>x.id==p.id&&x.v==vr);
+   l?l.q++:cart.push({id:p.id,v:vr,q:1});
+   sv('velor.cart',cart);
+   header();
+   toast(p.name+' добавлен в корзину');
+ }
+ else if(['inc','dec','rm'].includes(a)){
+   const l=cart[+v];
+   if(a=='inc')l.q++;
+   if(a=='dec'&&l.q>1)l.q--;
+   if(a=='rm')cart.splice(+v,1);
+   sv('velor.cart',cart);
+   render();
+ }
+ else if(a=='promo'){
+   const c=$('#pc').value.trim().toUpperCase();
+   if(!c||PROMO[c]){
+     promo=c;
+     sv('velor.promo',promo);
+     render();
+     if(c)toast('Промокод применён');
+   }else toast('Такого промокода нет');
+ }
  else if(a=='pay')location.hash='#/checkout';
 });
 document.addEventListener('submit',async e=>{
