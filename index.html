@@ -408,14 +408,3 @@ render();
 </script>
 </body>
 </html>
-
-document.addEventListener('input',e=>{
- if(!e.target.closest('#flt'))return;const F=S.f;
- F.cats=[...document.querySelectorAll('#flt [name=c]:checked')].map(x=>x.value);
- F.mem=[...document.querySelectorAll('#flt [name=m]:checked')].map(x=>x.value);
- F.min=+$('#min').value||0;F.max=+$('#max').value||0;F.q=$('#q').value.trim().toLowerCase();F.sort=$('#sort').value;drawList();
-});
-render();
-</script>
-</body>
-</html>
