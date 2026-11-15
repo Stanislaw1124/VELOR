@@ -130,7 +130,11 @@ nav.open{display:flex}
 <main id="app"></main>
 <footer><div class="wrap"><b style="font-size:22px">VELOR</b><p style="opacity:1;font-size:17px">Техника Apple. Внимание к деталям.</p><p>VELOR — независимый магазин техники, не является официальным представителем Apple. © 2026 VELOR · Политика конфиденциальности</p></div></footer>
 <div id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://eqeeaiqkwpnnbrzofxix.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Lin4bmTfnbJ5_Ol4SzBEgw_eZ1gU6Q2';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 /* ===== Данные: правьте товары здесь. Фото кладите в папку img/ под именем <id>.png ===== */
 const COL=[{n:'Natural Titanium',h:'#b8ada0'},{n:'Black',h:'#2a2a2c'},{n:'White Titanium',h:'#e8e8e4'},{n:'Desert Titanium',h:'#c8a98a'}];
 const P=[
@@ -327,15 +331,6 @@ document.addEventListener('input',e=>{
   }
 });
 render();
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = 'https://eqeeaiqkwpnnbrzofxix.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_Lin4bmTfnbJ5_Ol4SzBEgw_eZ1gU6Q2';
-const sb = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 </script>
-
 </body>
 </html>
