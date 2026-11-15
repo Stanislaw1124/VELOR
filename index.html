@@ -308,6 +308,10 @@ document.addEventListener('click',e=>{
  else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
  else if(a=='pay')location.hash='#/checkout';
 });
+ else if(['inc','dec','rm'].includes(a)){const l=cart[+v];if(a=='inc')l.q++;if(a=='dec'&&l.q>1)l.q--;if(a=='rm')cart.splice(+v,1);sv('velor.cart',cart);render()}
+ else if(a=='promo'){const c=$('#pc').value.trim().toUpperCase();if(!c||PROMO[c]){promo=c;sv('velor.promo',promo);render();if(c)toast('Промокод применён')}else toast('Такого промокода нет')}
+ else if(a=='pay')location.hash='#/checkout';
+});
 document.addEventListener('submit',async e=>{
   if(e.target.id==='sub'){
     e.preventDefault();
@@ -325,29 +329,33 @@ document.addEventListener('submit',async e=>{
   errorBox.textContent='';
   try{
     const fd=new FormData(form);
-    const T=totals();
-    const items=cart.map(x=>{
-      const p=byId(x.id);
-      return {
-        id:p.id,
-        name:p.name,
-        variant:x.v,
-        quantity:x.q,
-        price:p.price
-      };
-    });
     const order={
       customer_name:fd.get('customer_name').trim(),
       customer_phone:fd.get('customer_phone').trim(),
       customer_email:fd.get('customer_email').trim()||null,
       address:fd.get('address').trim(),
       comment:fd.get('comment').trim()||null,
-      items:items,
-      total:T.t,
-      status:'new'
+      promo_code:promo||'',
+      items:cart.map(x=>({
+        id:x.id,
+        variant:x.v||'',
+        quantity:x.q
+      }))
     };
-    const {error}=await sb.from('orders').insert(order);
-    if(error)throw error;
+    const {data,error}=await sb.functions.invoke('quick-handler',{
+      body:order
+    });
+    if(error){
+      let message=error.message;
+      try{
+        const details=await error.context.json();
+        if(details?.error)message=details.error;
+      }catch{}
+      throw new Error(message);
+    }
+    if(!data?.success){
+      throw new Error(data?.error||'Не удалось оформить заказ.');
+    }
     cart=[];
     sv('velor.cart',cart);
     promo='';
@@ -361,6 +369,17 @@ document.addEventListener('submit',async e=>{
     button.textContent='Подтвердить заказ';
   }
 });
+document.addEventListener('input',e=>{
+ if(!e.target.closest('#flt'))return;const F=S.f;
+ F.cats=[...document.querySelectorAll('#flt [name=c]:checked')].map(x=>x.value);
+ F.mem=[...document.querySelectorAll('#flt [name=m]:checked')].map(x=>x.value);
+ F.min=+$('#min').value||0;F.max=+$('#max').value||0;F.q=$('#q').value.trim().toLowerCase();F.sort=$('#sort').value;drawList();
+});
+render();
+</script>
+</body>
+</html>
+
 document.addEventListener('input',e=>{
  if(!e.target.closest('#flt'))return;const F=S.f;
  F.cats=[...document.querySelectorAll('#flt [name=c]:checked')].map(x=>x.value);
