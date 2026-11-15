@@ -148,6 +148,8 @@ function modal(){
 }
 const blank=()=>({exists:0,id:'',cat:'',name:'',sub:'',description:'',specs:[],hidden:false,sort:100,variants:[{memory:'',color:'',hex:'',price:'',stock:0}]});
  async function uploadProductImage(productId) {
+  const { data: sessionData } = await SB.auth.getSession();
+console.log('ADMIN SESSION:', sessionData.session);
   const file = document.querySelector('#f-image')?.files?.[0];
   if (!file) return null;
   if (!file.type.startsWith('image/')) {
