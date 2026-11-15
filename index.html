@@ -136,6 +136,7 @@ const SUPABASE_URL = 'https://eqeeaiqkwpnnbrzofxix.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Lin4bmTfnbJ5_Ol4SzBEgw_eZ1gU6Q2';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
  async function testProductsConnection() {
+  alert('Функция запустилась');
   const { data, error } = await sb
     .from('products')
     .select('id, name, price, variants, in_stock')
