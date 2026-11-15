@@ -194,7 +194,8 @@ let r=await SB.from('products').upsert({
   sub:g('sub'),
   description:$('#f-desc').value.trim(),
   specs,
-  price:rows[0].price,
+ price:rows[0].price,
+  image_url: imageUrl,
   hidden:ed.hidden,
   sort:ed.sort
 });
