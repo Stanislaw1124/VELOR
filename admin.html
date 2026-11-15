@@ -144,6 +144,7 @@ function modal(){
 }
 const blank=()=>({exists:0,id:'',cat:'',name:'',sub:'',description:'',specs:[],hidden:false,sort:100,variants:[{memory:'',color:'',hex:'',price:'',stock:0}]});
 async function save(){
+ alert('Функция сохранения запустилась');
  const g=i=>$('#f-'+i).value.trim(),id=g('id');
  if(!ed.exists&&!/^[a-z0-9-]{2,60}$/.test(id))return toast('Код: только латиница, цифры и дефис');
  if(!g('name')||!g('cat'))return toast('Укажите название и категорию');
