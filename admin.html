@@ -153,6 +153,9 @@ async function save(){
  if(rows.some(r=>!(r.price>=0)||!(r.stock>=0)))return toast('Цена и остаток — числа не меньше 0');
  const specs=g('spec')?$('#f-spec').value.split('\n').map(l=>{const i=l.indexOf(':');return i<1?null:[l.slice(0,i).trim(),l.slice(i+1).trim()]}).filter(Boolean):[];
  const pid=ed.exists?ed.id:id;
+ console.log('Товар:', pid);
+console.log('Цены вариантов:', rows.map(x=>x.price));
+console.log('Цена для products:', rows[0].price);
 let r=await SB.from('products').upsert({
   id:pid,
   cat:g('cat'),
