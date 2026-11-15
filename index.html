@@ -346,9 +346,7 @@ document.addEventListener('submit',async e=>{
       total:T.t,
       status:'new'
     };
-    const {error}=await sb
-      .from('orders')
-      .insert(order);
+    const {error}=await sb.from('orders').insert(order);
     if(error)throw error;
     cart=[];
     sv('velor.cart',cart);
